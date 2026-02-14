@@ -46,11 +46,16 @@
                     },
                     animation: {
                         'float': 'float 6s ease-in-out infinite',
+                        'shimmer': 'shimmer 3s linear infinite',
                     },
                     keyframes: {
                         float: {
                             '0%, 100%': { transform: 'translateY(0)' },
                             '50%': { transform: 'translateY(-20px)' },
+                        },
+                        shimmer: {
+                            '0%': { backgroundPosition: '-200% 0' },
+                            '100%': { backgroundPosition: '200% 0' },
                         }
                     }
                 }
@@ -74,6 +79,24 @@
             -webkit-backdrop-filter: blur(16px);
             border: 1px solid rgba(255, 255, 255, 0.08);
             box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            position: relative;
+        }
+
+        /* Border Shine Effect */
+        .glass-card::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            border-radius: inherit;
+            padding: 1px;
+            background: linear-gradient(120deg, transparent, rgba(212, 175, 55, 0.3), transparent);
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            pointer-events: none;
+            animation: shimmer 4s infinite;
+            background-size: 200% 100%;
         }
 
         .gold-gradient-text {
@@ -102,6 +125,24 @@
             outline: none;
         }
         .input-glass:focus { border-color: #D4AF37; background: rgba(255, 255, 255, 0.1); }
+        
+        /* Shining Button Pulse */
+        .btn-shine {
+            box-shadow: 0 0 15px rgba(212, 175, 55, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+        .btn-shine::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.1), transparent);
+            transform: rotate(45deg);
+            animation: shimmer 3s infinite;
+        }
     </style>
 </head>
 <body class="min-h-screen flex flex-col items-center justify-center p-4 selection:bg-gold-500 selection:text-night-900">
@@ -118,7 +159,7 @@
                 </svg>
             </div>
 
-            <div class="mb-8 content-fade-in">
+            <div class="mb-8 content-fade-in relative z-20">
                 <p class="text-gold-400 uppercase tracking-[0.3em] text-[10px] font-semibold mb-2">Bismillahir Rahmanir Rahim</p>
                 <p class="text-gray-300 font-serif italic text-lg">As-salamu alaykum,</p>
                 
@@ -131,12 +172,12 @@
                 </div>
             </div>
 
-            <div class="my-8 py-6 border-y border-white/10 content-fade-in">
+            <div class="my-8 py-6 border-y border-white/10 content-fade-in relative z-20">
                 <h3 class="text-2xl md:text-3xl font-serif text-white mb-2">Birthday & Iftar</h3>
                 <p class="text-gold-400 font-cinzel text-xs tracking-widest uppercase">21st February • Thakurgaon</p>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10 text-gray-200 content-fade-in">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10 text-gray-200 content-fade-in relative z-20">
                 <div class="flex flex-col items-center gap-1">
                     <i data-lucide="calendar" class="w-5 h-5 text-gold-500 mb-1"></i>
                     <span class="text-sm font-semibold">Feb 21, 2026</span>
@@ -151,7 +192,7 @@
                 </div>
             </div>
 
-            <div class="mb-10 content-fade-in">
+            <div class="mb-10 content-fade-in relative z-20">
                 <div class="flex justify-center gap-3 text-center">
                     <div class="glass-card px-3 py-2 rounded-xl min-w-[60px]">
                         <span id="days" class="block text-xl font-bold">00</span>
@@ -172,19 +213,19 @@
                 </div>
             </div>
 
-            <div class="flex flex-col gap-4 items-center content-fade-in">
-                <button id="confetti-btn" class="w-full max-w-xs px-8 py-3 bg-gradient-to-r from-gold-600 to-gold-400 text-night-900 font-bold rounded-full hover:shadow-[0_0_20px_rgba(212,175,55,0.4)] transition-all transform hover:scale-105 active:scale-95">
+            <div class="flex flex-col gap-4 items-center content-fade-in relative z-30">
+                <button id="confetti-btn" class="btn-shine w-full max-w-xs px-8 py-3 bg-gradient-to-r from-gold-600 to-gold-400 text-night-900 font-bold rounded-full hover:shadow-[0_0_25px_rgba(212,175,55,0.5)] transition-all transform hover:scale-105 active:scale-95 pointer-events-auto cursor-pointer">
                     I'll Be There!
                 </button>
             </div>
 
-            <div class="mt-8 text-[10px] text-gray-500 font-mono opacity-60">
+            <div class="mt-8 text-[10px] text-gray-500 font-mono opacity-60 relative z-20">
                 "Join us for food, prayer, and memories."
             </div>
         </div>
 
-        <div class="mt-8 text-center content-fade-in" style="animation-delay: 1.2s">
-            <button onclick="document.getElementById('share-tools').classList.toggle('hidden')" class="text-xs text-gray-500 hover:text-white underline transition-colors">
+        <div class="mt-8 text-center content-fade-in relative z-40" style="animation-delay: 1.2s">
+            <button onclick="document.getElementById('share-tools').classList.toggle('hidden')" class="text-xs text-gray-500 hover:text-white underline transition-colors cursor-pointer">
                 Personalize & Share this link
             </button>
             
@@ -192,7 +233,7 @@
                 <p class="text-xs mb-3 text-gray-300 font-semibold uppercase tracking-wider">Invite a Friend</p>
                 <div class="flex gap-2">
                     <input type="text" id="friend-name-input" placeholder="Friend's Name" class="input-glass px-4 py-2 rounded-xl w-full text-sm">
-                    <button onclick="generateLink()" class="bg-gold-500 hover:bg-gold-400 px-4 py-2 rounded-xl text-night-900 transition-colors">
+                    <button onclick="generateLink()" class="bg-gold-500 hover:bg-gold-400 px-4 py-2 rounded-xl text-night-900 transition-colors cursor-pointer">
                         <i data-lucide="copy" class="w-4 h-4"></i>
                     </button>
                 </div>
@@ -209,18 +250,38 @@
     <script>
         lucide.createIcons();
 
-        // 1. URL Personalization Logic
+        // Cookie Helpers
+        function setCookie(name, value, days) {
+            const expires = new Date(Date.now() + days * 864e5).toUTCString();
+            document.cookie = `${name}=${encodeURIComponent(value)}; expires=${expires}; path=/`;
+        }
+        function getCookie(name) {
+            return document.cookie.split('; ').reduce((r, v) => {
+                const parts = v.split('=');
+                return parts[0] === name ? decodeURIComponent(parts[1]) : r;
+            }, '');
+        }
+
+        // 1. URL Personalization & Cookie Logic
         function setupGuest() {
             const params = new URLSearchParams(window.location.search);
-            const guest = params.get('guest') || params.get('name') || "";
+            let guest = params.get('guest') || params.get('name');
+            
+            // If no name in URL, try to get from cookie
+            if (!guest) {
+                guest = getCookie('guest_name');
+            } else {
+                // If name is in URL, save it to cookie for next time
+                setCookie('guest_name', guest, 30);
+            }
+
             const salutation = document.getElementById('salutation');
             const guestDisplay = document.getElementById('guest-name');
 
             if (guest) {
-                // Decode the URL name (handles %20 as space etc)
                 const decodedName = decodeURIComponent(guest);
                 guestDisplay.innerText = decodedName;
-                salutation.innerText = ""; // Cleaner "Dear [Name]"
+                salutation.innerText = "";
             } else {
                 guestDisplay.innerText = "You";
                 salutation.innerText = "Friend,";
@@ -234,13 +295,10 @@
             const nameValue = input.value.trim();
             if(!nameValue) return;
 
-            // Get clean base URL
             const url = new URL(window.location.href);
             url.searchParams.set('guest', nameValue);
-            
             const finalUrl = url.toString();
 
-            // Compatibility for browser copying
             const dummy = document.createElement('input');
             document.body.appendChild(dummy);
             dummy.value = finalUrl;
@@ -254,7 +312,7 @@
             setTimeout(() => feedback.classList.add('hidden'), 3000);
         }
 
-        // 3. Countdown (Target: Feb 21, 2026 17:45)
+        // 3. Countdown
         const target = new Date("February 21, 2026 17:45:00").getTime();
         setInterval(() => {
             const now = new Date().getTime();
@@ -274,15 +332,25 @@
 
         const container = document.getElementById('card-container');
         const card = document.getElementById('invite-card');
+        
         container.addEventListener('mousemove', (e) => {
-            const xAxis = (window.innerWidth / 2 - e.pageX) / 30;
-            const yAxis = (window.innerHeight / 2 - e.pageY) / 30;
+            const xAxis = (window.innerWidth / 2 - e.pageX) / 35; // Lower sensitivity for better button access
+            const yAxis = (window.innerHeight / 2 - e.pageY) / 35;
             card.style.transform = `rotateY(${xAxis}deg) rotateX(${yAxis}deg)`;
         });
-        container.addEventListener('mouseleave', () => card.style.transform = `rotateY(0deg) rotateX(0deg)`);
+        
+        container.addEventListener('mouseleave', () => {
+            card.style.transform = `rotateY(0deg) rotateX(0deg)`;
+        });
 
-        document.getElementById('confetti-btn').addEventListener('click', function() {
-            confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 }, colors: ['#D4AF37', '#ffffff'] });
+        document.getElementById('confetti-btn').addEventListener('click', function(e) {
+            e.stopPropagation(); // Prevent tilt interference
+            confetti({ 
+                particleCount: 150, 
+                spread: 70, 
+                origin: { y: 0.6 }, 
+                colors: ['#D4AF37', '#ffffff', '#AA8C2C'] 
+            });
             this.innerText = "Confirmed! 🌙";
             this.classList.replace('from-gold-600', 'from-green-600');
             this.classList.replace('to-gold-400', 'to-green-400');
